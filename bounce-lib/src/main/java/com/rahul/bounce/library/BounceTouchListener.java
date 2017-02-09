@@ -34,6 +34,9 @@ public class BounceTouchListener implements View.OnTouchListener {
     private float mLastTouchY = -99;
     private int mMaxAbsTranslation = -99;
 
+    private boolean bounceTopEnabled = true;
+    private boolean bounceBottomEnabled = true;
+
 
     private BounceTouchListener(View mainView, int contentResId, @Nullable OnTranslateListener listener) {
         mMainView = mainView;
@@ -218,6 +221,9 @@ public class BounceTouchListener implements View.OnTouchListener {
     }
 
     private boolean hasHitBottom() {
+        if (!bounceBottomEnabled) {
+            return false;
+        }
         if (mMainView instanceof ScrollView) {
             ScrollView scrollView = (ScrollView) mMainView;
             View view = scrollView.getChildAt(scrollView.getChildCount() - 1);
@@ -255,6 +261,9 @@ public class BounceTouchListener implements View.OnTouchListener {
     }
 
     private boolean hasHitTop() {
+        if (!bounceTopEnabled) {
+            return false;
+        }
         if (mMainView instanceof ScrollView) {
             ScrollView scrollView = (ScrollView) mMainView;
             return scrollView.getScrollY() == 0;
@@ -292,6 +301,14 @@ public class BounceTouchListener implements View.OnTouchListener {
 
     public void setMaxAbsTranslation(int maxAbsTranslation) {
         this.mMaxAbsTranslation = maxAbsTranslation;
+    }
+
+    public void setBounceTopEnabled(boolean bounceTopEnabled) {
+        this.bounceTopEnabled = bounceTopEnabled;
+    }
+
+    public void setBounceBottomEnabled(boolean bounceBottomEnabled) {
+        this.bounceBottomEnabled = bounceBottomEnabled;
     }
 
     public interface OnTranslateListener {
